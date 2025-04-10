@@ -1,0 +1,80 @@
+id: lending-data-flow
+namespace: de.lending
+
+# inputs:
+#   - id: file
+#     type: FILE
+
+tasks:
+#   - id: upload
+#     type: io.kestra.plugin.gcp.gcs.Upload
+#     from: "{{ inputs.file }}"
+#     to: "gs://{{ kv('GCP_BUCKET_NAME') }}/code/spark_bigquery.py"
+
+  - id: upload_raw_data
+    type: io.kestra.plugin.gcp.cli.GCloudCLI
+    commands:
+      # make sure cluster and region match your GCP settings
+      - gcloud dataproc jobs submit pyspark gs://{{ kv('GCP_BUCKET_NAME') }}/code/01-lending_club_intro.py --cluster=ara-cluster --region=asia-south1 --project=eastern-amp-449614-e1
+
+  - id: clean_customers_data
+    type: io.kestra.plugin.gcp.cli.GCloudCLI
+    commands:
+      # make sure cluster and region match your GCP settings
+      - gcloud dataproc jobs submit pyspark gs://{{ kv('GCP_BUCKET_NAME') }}/code/02-data_cleaning_customers.py --cluster=ara-cluster --region=asia-south1 --project=eastern-amp-449614-e1
+
+  - id: clean_loans_data
+    type: io.kestra.plugin.gcp.cli.GCloudCLI
+    commands:
+      # make sure cluster and region match your GCP settings
+      - gcloud dataproc jobs submit pyspark gs://{{ kv('GCP_BUCKET_NAME') }}/code/03-data_cleaning_loans.py --cluster=ara-cluster --region=asia-south1 --project=eastern-amp-449614-e1
+
+  - id: clean_repayment_data
+    type: io.kestra.plugin.gcp.cli.GCloudCLI
+    commands:
+      # make sure cluster and region match your GCP settings
+      - gcloud dataproc jobs submit pyspark gs://{{ kv('GCP_BUCKET_NAME') }}/code/04-data_cleaning_repayment.py --cluster=ara-cluster --region=asia-south1 --project=eastern-amp-449614-e1
+
+  - id: clean_defaulters_data
+    type: io.kestra.plugin.gcp.cli.GCloudCLI
+    commands:
+      # make sure cluster and region match your GCP settings
+      - gcloud dataproc jobs submit pyspark gs://{{ kv('GCP_BUCKET_NAME') }}/code/05-data_cleaning_defaulters.py --cluster=ara-cluster --region=asia-south1 --project=eastern-amp-449614-e1
+
+  - id: clean_defaulters_detailed_data
+    type: io.kestra.plugin.gcp.cli.GCloudCLI
+    commands:
+      # make sure cluster and region match your GCP settings
+      - gcloud dataproc jobs submit pyspark gs://{{ kv('GCP_BUCKET_NAME') }}/code/06-data_cleaning_defaulters_detailed.py --cluster=ara-cluster --region=asia-south1 --project=eastern-amp-449614-e1
+
+  - id: create_bq_ext_tables
+    type: io.kestra.plugin.gcp.cli.GCloudCLI
+    commands:
+      # make sure cluster and region match your GCP settings
+      - gcloud dataproc jobs submit pyspark gs://{{ kv('GCP_BUCKET_NAME') }}/code/07-create_bq_ext_tables.py --cluster=ara-cluster --region=asia-south1 --project=eastern-amp-449614-e1
+
+  - id: create_unified_view
+    type: io.kestra.plugin.gcp.cli.GCloudCLI
+    commands:
+      # make sure cluster and region match your GCP settings
+      - gcloud dataproc jobs submit pyspark gs://{{ kv('GCP_BUCKET_NAME') }}/code/08-create_unified_view.py --cluster=ara-cluster --region=asia-south1 --project=eastern-amp-449614-e1
+
+  - id: lending_club_s5_s6
+    type: io.kestra.plugin.gcp.cli.GCloudCLI
+    commands:
+      # make sure cluster and region match your GCP settings
+      - gcloud dataproc jobs submit pyspark gs://{{ kv('GCP_BUCKET_NAME') }}/code/09-lending_club_s5_s6.py --cluster=ara-cluster --region=asia-south1 --project=eastern-amp-449614-e1
+
+  - id: loan_score
+    type: io.kestra.plugin.gcp.cli.GCloudCLI
+    commands:
+      # make sure cluster and region match your GCP settings
+      - gcloud dataproc jobs submit pyspark gs://{{ kv('GCP_BUCKET_NAME') }}/code/10-loan_score.py --cluster=ara-cluster --region=asia-south1 --project=eastern-amp-449614-e1
+
+pluginDefaults:
+  - type: io.kestra.plugin.gcp
+    values:
+      serviceAccount: "{{ kv('gcp-creds') }}"
+      projectId: "{{ kv('GCP_PROJECT_ID') }}"
+      location: "{{ kv('GCP_LOCATION') }}"
+      bucket: "{{ kv('GCP_BUCKET_NAME') }}"
