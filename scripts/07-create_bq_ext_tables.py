@@ -6,7 +6,7 @@ import getpass
 import os
 
 def main():
-    # Cell 1: Initialize Spark Session with BigQuery connector
+    # Initialize Spark Session with BigQuery connector
     username = getpass.getuser()
     spark = SparkSession. \
         builder. \
@@ -29,23 +29,23 @@ def main():
     GCS_BUCKET = "lending_ara"  # Your GCS bucket name
 
     try:
-        # Cell 2: Read customers data from GCS
-        print("\nCell 2: Reading customers data from GCS")
+        # Read customers data from GCS
+        print("\nReading customers data from GCS")
         customers_df = spark.read \
             .format("parquet") \
             .load(f"gs://{GCS_BUCKET}/data/raw/cleaned/customers_parquet")
         
-        # Cell 3: Show customers data schema
-        print("\nCell 3: Showing customers data schema")
+        # Show customers data schema
+        print("\nShowing customers data schema")
         customers_df.printSchema()
         
-        # Cell 4: Create BigQuery dataset (if it doesn't exist)
-        print(f"\nCell 4: Creating BigQuery dataset {GCP_DATASET}")
+        # Create BigQuery dataset (if it doesn't exist)
+        print(f"\nCreating BigQuery dataset {GCP_DATASET}")
         # Note: Dataset will be created automatically when creating tables
         print(f"BigQuery dataset {GCP_DATASET} will be created with the first table.")
         
-        # Cell 5: Create table for customers in BigQuery
-        print("\nCell 5: Creating table for customers in BigQuery")
+        # Create table for customers in BigQuery
+        print("\nCreating table for customers in BigQuery")
         customers_df.write \
             .format("bigquery") \
             .option("table", f"{GCP_PROJECT_ID}.{GCP_DATASET}.customers") \
@@ -54,12 +54,12 @@ def main():
             .save()
         print(f"Table {GCP_PROJECT_ID}.{GCP_DATASET}.customers created.")
         
-        # Cell 6: Show customers table data
-        print(f"\nCell 6: Showing sample data from customers_df")
+        # Show customers table data
+        print(f"\nShowing sample data from customers_df")
         customers_df.show(5)
         
-        # Cell 7: Read and create table for loans in BigQuery
-        print("\nCell 7: Reading and creating table for loans in BigQuery")
+        # Read and create table for loans in BigQuery
+        print("\nReading and creating table for loans in BigQuery")
         loans_df = spark.read \
             .format("parquet") \
             .load(f"gs://{GCS_BUCKET}/data/raw/cleaned/loans_parquet")
@@ -72,12 +72,12 @@ def main():
             .save()
         print(f"Table {GCP_PROJECT_ID}.{GCP_DATASET}.loans created.")
         
-        # Cell 8: Show loans table data
-        print(f"\nCell 8: Showing sample data from loans_df")
+        # Show loans table data
+        print(f"\nShowing sample data from loans_df")
         loans_df.show(5)
         
-        # Cell 9: Read and create table for loans_repayments in BigQuery
-        print("\nCell 9: Reading and creating table for loans_repayments in BigQuery")
+        # Read and create table for loans_repayments in BigQuery
+        print("\nReading and creating table for loans_repayments in BigQuery")
         repayments_df = spark.read \
             .format("parquet") \
             .load(f"gs://{GCS_BUCKET}/data/raw/cleaned/loans_repayments_parquet")
@@ -90,12 +90,12 @@ def main():
             .save()
         print(f"Table {GCP_PROJECT_ID}.{GCP_DATASET}.loans_repayments created.")
         
-        # Cell 10: Show loans_repayments table data
-        print(f"\nCell 10: Showing sample data from repayments_df")
+        #  Show loans_repayments table data
+        print(f"\n Showing sample data from repayments_df")
         repayments_df.show(5)
         
-        # Cell 11: Read and create table for loans_defaulters_delinq in BigQuery
-        print("\nCell 11: Reading and creating table for loans_defaulters_delinq in BigQuery")
+        #  Read and create table for loans_defaulters_delinq in BigQuery
+        print("\n Reading and creating table for loans_defaulters_delinq in BigQuery")
         defaulters_delinq_df = spark.read \
             .format("parquet") \
             .load(f"gs://{GCS_BUCKET}/data/raw/cleaned/loans_defaulters_deling_parquet")
@@ -108,12 +108,12 @@ def main():
             .save()
         print(f"Table {GCP_PROJECT_ID}.{GCP_DATASET}.loans_defaulters_delinq created.")
         
-        # Cell 12: Show loans_defaulters_delinq table data
-        print(f"\nCell 12: Showing sample data from defaulters_delinq_df")
+        #  Show loans_defaulters_delinq table data
+        print(f"\n Showing sample data from defaulters_delinq_df")
         defaulters_delinq_df.show(5)
         
-        # Cell 13: Read and create table for loans_defaulters_detail_rec_enq in BigQuery
-        print("\nCell 13: Reading and creating table for loans_defaulters_detail_rec_enq in BigQuery")
+        #  Read and create table for loans_defaulters_detail_rec_enq in BigQuery
+        print("\n Reading and creating table for loans_defaulters_detail_rec_enq in BigQuery")
         defaulters_detail_df = spark.read \
             .format("parquet") \
             .load(f"gs://{GCS_BUCKET}/data/raw/cleaned/loans_def_detail_records_enq_df_parquet")
@@ -126,8 +126,8 @@ def main():
             .save()
         print(f"Table {GCP_PROJECT_ID}.{GCP_DATASET}.loans_defaulters_detail_rec_enq created.")
         
-        # Cell 14: Show loans_defaulters_detail_rec_enq table data
-        print(f"\nCell 14: Showing sample data from defaulters_detail_df")
+        #  Show loans_defaulters_detail_rec_enq table data
+        print(f"\n Showing sample data from defaulters_detail_df")
         defaulters_detail_df.show(5)
 
     finally:
