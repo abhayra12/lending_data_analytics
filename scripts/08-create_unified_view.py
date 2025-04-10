@@ -5,7 +5,7 @@ from pyspark.sql import SparkSession
 import getpass
 
 def main():
-    # Cell 1: Initialize Spark Session with BigQuery connector (from 07-create_bq_ext_tables.py)
+    # Initialize Spark Session with BigQuery connector (from 07-create_bq_ext_tables.py)
     username = getpass.getuser()
     spark = SparkSession. \
         builder. \
@@ -27,8 +27,8 @@ def main():
     GCP_DATASET = "lending_db"
 
     try:
-        # Cell 2: Read all the tables from BigQuery
-        print("\nCell 2: Reading tables from BigQuery")
+        # Read all the tables from BigQuery
+        print("\nReading tables from BigQuery")
         
         customers_df = spark.read \
             .format("bigquery") \
@@ -60,8 +60,8 @@ def main():
             .load()
         print("Loans defaulters detail table loaded")
         
-        # Cell 3: Join the dataframes to create the unified view
-        print("\nCell 3: Creating unified customer loan dataframe")
+        # Join the dataframes to create the unified view
+        print("\nCreating unified customer loan dataframe")
         unified_df = customers_df \
             .join(loans_df, customers_df.member_id == loans_df.member_id, "left") \
             .join(repayments_df, loans_df.loan_id == repayments_df.loan_id, "left") \
@@ -105,12 +105,12 @@ def main():
                 defaulters_detail_df.inq_last_6mths
             )
         
-        # Cell 4: Show the unified dataframe
-        print("\nCell 4: Showing sample data from the unified dataframe")
+        # Show the unified dataframe
+        print("\nShowing sample data from the unified dataframe")
         unified_df.show(5)
         
-        # Cell 5: Create a materialized table from the unified dataframe
-        print("\nCell 5: Creating table from the unified dataframe")
+        # Create a materialized table from the unified dataframe
+        print("\nCreating table from the unified dataframe")
         unified_df.write \
             .format("bigquery") \
             .option("table", f"{GCP_PROJECT_ID}.{GCP_DATASET}.customers_loan_t") \
