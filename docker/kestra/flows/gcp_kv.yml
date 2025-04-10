@@ -1,0 +1,50 @@
+id: gcp_kv
+namespace: de.lending
+
+tasks:
+
+  # Entering and Storing GCP Credentials
+  #
+  # [Option 1 - Less Secure]
+  # 1. Uncomment the following code and fill out GCP credentials.
+  # 2. Add gcp_kv.yaml to .gitignore before committing code to GitHub otherwise GCP credentials will be exposed.
+  # 3. Execute gcp_kv.yaml in the Kestra UI.
+  #
+  # - id: gcp_creds
+  #   type: io.kestra.plugin.core.kv.Set
+  #   key: GCP_CREDS
+  #   kvType: JSON
+  #   value: |
+  #     {
+  #       "type": "service_account",
+  #       "project_id": "...",
+  #     }
+  #
+  # [Option 2 - More Secure]
+  # 1. Without uncommenting code above, execute gcp_kv.yaml in the Kestra UI.
+  # 2. Go to Namespaces > select correct namespace
+  # 3. Go to KV Store > enter GCP credentials for service account.
+
+  - id: gcp_project_id
+    type: io.kestra.plugin.core.kv.Set
+    key: GCP_PROJECT_ID
+    kvType: STRING
+    value: eastern-amp-449614-e1
+
+  - id: gcp_location
+    type: io.kestra.plugin.core.kv.Set
+    key: GCP_LOCATION
+    kvType: STRING
+    value: asia-south1
+
+  - id: gcp_bucket_name
+    type: io.kestra.plugin.core.kv.Set
+    key: GCP_BUCKET_NAME
+    kvType: STRING
+    value: dataproc-staging-asia-south1-877288389327-m3kiswwo
+
+  - id: gcp_dataset
+    type: io.kestra.plugin.core.kv.Set
+    key: GCP_DATASET
+    kvType: STRING
+    value: lending-dataset
