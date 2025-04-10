@@ -1,0 +1,612 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Lending Club Accepted Loans Schema (2007-2018Q4)",
+  "description": "Schema for Lending Club accepted loans data from 2007 to 2018 Q4",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "A unique LC assigned ID for the loan listing"
+    },
+    "member_id": {
+      "type": "integer",
+      "description": "A unique LC assigned ID for the member that took the loan"
+    },
+    "loan_amnt": {
+      "type": "number",
+      "description": "The listed amount of the loan applied for by the borrower"
+    },
+    "funded_amnt": {
+      "type": "number",
+      "description": "The total amount committed to that loan at that point in time"
+    },
+    "funded_amnt_inv": {
+      "type": "number",
+      "description": "The total amount committed by investors for that loan at that point in time"
+    },
+    "term": {
+      "type": "string",
+      "description": "The number of payments on the loan. Values are in months and can be either 36 or 60"
+    },
+    "int_rate": {
+      "type": "string",
+      "description": "Interest Rate on the loan"
+    },
+    "installment": {
+      "type": "number",
+      "description": "The monthly payment owed by the borrower if the loan originates"
+    },
+    "grade": {
+      "type": "string",
+      "description": "LC assigned loan grade"
+    },
+    "sub_grade": {
+      "type": "string",
+      "description": "LC assigned loan subgrade"
+    },
+    "emp_title": {
+      "type": "string",
+      "description": "The job title supplied by the Borrower when applying for the loan"
+    },
+    "emp_length": {
+      "type": "string",
+      "description": "Employment length in years"
+    },
+    "home_ownership": {
+      "type": "string",
+      "description": "The home ownership status provided by the borrower during registration"
+    },
+    "annual_inc": {
+      "type": "number",
+      "description": "The annual income provided by the borrower during registration"
+    },
+    "verification_status": {
+      "type": "string",
+      "description": "Indicates if income was verified by LC, not verified, or if the income source was verified"
+    },
+    "issue_d": {
+      "type": "string",
+      "description": "The month which the loan was funded"
+    },
+    "loan_status": {
+      "type": "string",
+      "description": "Current status of the loan"
+    },
+    "pymnt_plan": {
+      "type": "string",
+      "description": "Indicates if a payment plan has been put in place for the loan"
+    },
+    "url": {
+      "type": "string",
+      "description": "URL for the LC page with listing data"
+    },
+    "desc": {
+      "type": "string",
+      "description": "Loan description provided by the borrower"
+    },
+    "purpose": {
+      "type": "string",
+      "description": "A category provided by the borrower for the loan request"
+    },
+    "title": {
+      "type": "string",
+      "description": "The loan title provided by the borrower"
+    },
+    "zip_code": {
+      "type": "string",
+      "description": "The first 3 numbers of the zip code provided by the borrower in the loan application"
+    },
+    "addr_state": {
+      "type": "string",
+      "description": "The state provided by the borrower in the loan application"
+    },
+    "dti": {
+      "type": "number",
+      "description": "The ratio of total monthly debt payments divided by monthly income"
+    },
+    "delinq_2yrs": {
+      "type": "integer",
+      "description": "The number of 30+ days past-due incidences of delinquency in the borrower's credit file for the past 2 years"
+    },
+    "earliest_cr_line": {
+      "type": "string",
+      "description": "The month the borrower's earliest reported credit line was opened"
+    },
+    "inq_last_6mths": {
+      "type": "integer",
+      "description": "The number of inquiries in past 6 months (excluding auto and mortgage inquiries)"
+    },
+    "mths_since_last_delinq": {
+      "type": "integer",
+      "description": "The number of months since the borrower's last delinquency"
+    },
+    "mths_since_last_record": {
+      "type": "integer",
+      "description": "The number of months since the last public record"
+    },
+    "open_acc": {
+      "type": "integer",
+      "description": "The number of open credit lines in the borrower's credit file"
+    },
+    "pub_rec": {
+      "type": "integer",
+      "description": "Number of derogatory public records"
+    },
+    "revol_bal": {
+      "type": "number",
+      "description": "Total credit revolving balance"
+    },
+    "revol_util": {
+      "type": "number",
+      "description": "Revolving line utilization rate"
+    },
+    "total_acc": {
+      "type": "integer",
+      "description": "The total number of credit lines currently in the borrower's credit file"
+    },
+    "initial_list_status": {
+      "type": "string",
+      "description": "The initial listing status of the loan. Possible values are - whole, fractional"
+    },
+    "out_prncp": {
+      "type": "number",
+      "description": "Remaining outstanding principal for total amount funded"
+    },
+    "out_prncp_inv": {
+      "type": "number",
+      "description": "Remaining outstanding principal for portion of total amount funded by investors"
+    },
+    "total_pymnt": {
+      "type": "number",
+      "description": "Payments received to date for total amount funded"
+    },
+    "total_pymnt_inv": {
+      "type": "number",
+      "description": "Payments received to date for portion of total amount funded by investors"
+    },
+    "total_rec_prncp": {
+      "type": "number",
+      "description": "Principal received to date"
+    },
+    "total_rec_int": {
+      "type": "number",
+      "description": "Interest received to date"
+    },
+    "total_rec_late_fee": {
+      "type": "number",
+      "description": "Late fees received to date"
+    },
+    "recoveries": {
+      "type": "number",
+      "description": "post charge off gross recovery"
+    },
+    "collection_recovery_fee": {
+      "type": "number",
+      "description": "post charge off collection fee"
+    },
+    "last_pymnt_d": {
+      "type": "string",
+      "description": "Last month payment was received"
+    },
+    "last_pymnt_amnt": {
+      "type": "number",
+      "description": "Last total payment amount received"
+    },
+    "next_pymnt_d": {
+      "type": "string",
+      "description": "Next scheduled payment date"
+    },
+    "last_credit_pull_d": {
+      "type": "string",
+      "description": "The most recent month LC pulled credit for this loan"
+    },
+    "last_fico_range_low": {
+      "type": "integer",
+      "description": "The lower boundary range the borrower's last FICO at time of application"
+    },
+    "last_fico_range_high": {
+      "type": "integer",
+      "description": "The upper boundary range the borrower's last FICO at time of application"
+    },
+    "collections_12_mths_ex_med": {
+      "type": "integer",
+      "description": "Number of collections in 12 months excluding medical collections"
+    },
+    "mths_since_last_major_derog": {
+      "type": "integer",
+      "description": "Months since most recent 90-day or worse rating"
+    },
+    "policy_code": {
+      "type": "integer",
+      "description": "publicly available policy_code=1 new products not publicly available policy_code=2"
+    },
+    "application_type": {
+      "type": "string",
+      "description": "Indicates whether the loan is an individual application or a joint application with two co-borrowers"
+    },
+    "annual_inc_joint": {
+      "type": "number",
+      "description": "The annual income provided by the co-borrower during registration"
+    },
+    "dti_joint": {
+      "type": "number",
+      "description": "The ratio of total monthly debt payments divided by monthly income for co-borrower"
+    },
+    "verification_status_joint": {
+      "type": "string",
+      "description": "Indicates if the co-borrower's income was verified by LC, not verified, or if the income source was verified"
+    },
+    "acc_now_delinq": {
+      "type": "integer",
+      "description": "The number of accounts on which the borrower is now delinquent"
+    },
+    "tot_coll_amt": {
+      "type": "number",
+      "description": "Total collection amount ever owed"
+    },
+    "tot_cur_bal": {
+      "type": "number",
+      "description": "Total current balance of all accounts"
+    },
+    "open_acc_6m": {
+      "type": "integer",
+      "description": "Number of open trades in last 6 months"
+    },
+    "open_il_6m": {
+      "type": "integer",
+      "description": "Number of currently active installment trades"
+    },
+    "open_il_12m": {
+      "type": "integer",
+      "description": "Number of installment accounts opened in past 12 months"
+    },
+    "open_il_24m": {
+      "type": "integer",
+      "description": "Number of installment accounts opened in past 24 months"
+    },
+    "mths_since_rcnt_il": {
+      "type": "integer",
+      "description": "Months since most recent installment accounts opened"
+    },
+    "total_bal_il": {
+      "type": "number",
+      "description": "Total current balance of all installment accounts"
+    },
+    "il_util": {
+      "type": "number",
+      "description": "Ratio of total current balance to high credit/credit limit on all install acct"
+    },
+    "open_rv_12m": {
+      "type": "integer",
+      "description": "Number of revolving trades opened in past 12 months"
+    },
+    "open_rv_24m": {
+      "type": "integer",
+      "description": "Number of revolving trades opened in past 24 months"
+    },
+    "max_bal_bc": {
+      "type": "number",
+      "description": "Maximum current balance owed on all revolving accounts"
+    },
+    "all_util": {
+      "type": "number",
+      "description": "Balance to credit limit on all trades"
+    },
+    "total_rev_hi_lim": {
+      "type": "number",
+      "description": "Total revolving high credit/credit limit"
+    },
+    "inq_fi": {
+      "type": "integer",
+      "description": "Number of personal finance inquiries"
+    },
+    "total_cu_tl": {
+      "type": "integer",
+      "description": "Number of finance trades"
+    },
+    "inq_last_12m": {
+      "type": "integer",
+      "description": "Number of credit inquiries in past 12 months"
+    },
+    "acc_open_past_24mths": {
+      "type": "integer",
+      "description": "Number of trades opened in past 24 months"
+    },
+    "avg_cur_bal": {
+      "type": "number",
+      "description": "Average current balance of all accounts"
+    },
+    "bc_open_to_buy": {
+      "type": "number",
+      "description": "Amount of time (in months) between the date the credit line was established and the date of the purchase for the most recent bankcard account"
+    },
+    "bc_util": {
+      "type": "number",
+      "description": "Ratio of total current balance to high credit/credit limit for all bankcard accounts"
+    },
+    "chargeoff_within_12_mths": {
+      "type": "integer",
+      "description": "Number of charge-offs within 12 months"
+    },
+    "delinq_amnt": {
+      "type": "number",
+      "description": "The past due amount owed for the accounts on which the borrower is now delinquent"
+    },
+    "mo_sin_old_il_acct": {
+      "type": "integer",
+      "description": "Months since oldest bank installment account opened"
+    },
+    "mo_sin_old_rev_tl_op": {
+      "type": "integer",
+      "description": "Months since oldest revolving account opened"
+    },
+    "mo_sin_rcnt_rev_tl_op": {
+      "type": "integer",
+      "description": "Months since most recent revolving account opened"
+    },
+    "mo_sin_rcnt_tl": {
+      "type": "integer",
+      "description": "Months since most recent account opened"
+    },
+    "mort_acc": {
+      "type": "integer",
+      "description": "Number of mortgage accounts"
+    },
+    "mths_since_recent_bc": {
+      "type": "integer",
+      "description": "Months since most recent bankcard account opened"
+    },
+    "mths_since_recent_bc_dlq": {
+      "type": "integer",
+      "description": "Months since most recent bankcard delinquency"
+    },
+    "mths_since_recent_inq": {
+      "type": "integer",
+      "description": "Months since most recent inquiry"
+    },
+    "mths_since_recent_revol_delinq": {
+      "type": "integer",
+      "description": "Months since most recent revolving delinquency"
+    },
+    "num_accts_ever_120_pd": {
+      "type": "integer",
+      "description": "Number of accounts ever 120 or more days past due"
+    },
+    "num_actv_bc_tl": {
+      "type": "integer",
+      "description": "Number of currently active bankcard accounts"
+    },
+    "num_actv_rev_tl": {
+      "type": "integer",
+      "description": "Number of currently active revolving trades"
+    },
+    "num_bc_sats": {
+      "type": "integer",
+      "description": "Number of satisfactory bankcard accounts"
+    },
+    "num_bc_tl": {
+      "type": "integer",
+      "description": "Number of bankcard accounts"
+    },
+    "num_il_tl": {
+      "type": "integer",
+      "description": "Number of installment accounts"
+    },
+    "num_op_rev_tl": {
+      "type": "integer",
+      "description": "Number of open revolving accounts"
+    },
+    "num_rev_accts": {
+      "type": "integer",
+      "description": "Number of revolving accounts"
+    },
+    "num_rev_tl_bal_gt_0": {
+      "type": "integer",
+      "description": "Number of revolving accounts with balance >0"
+    },
+    "num_sats": {
+      "type": "integer",
+      "description": "Number of satisfactory accounts"
+    },
+    "num_tl_120dpd_2m": {
+      "type": "integer",
+      "description": "Number of accounts currently 120 days past due (updated in past 2 months)"
+    },
+    "num_tl_30dpd": {
+      "type": "integer",
+      "description": "Number of accounts currently 30 days past due (updated in past 2 months)"
+    },
+    "num_tl_90g_dpd_24m": {
+      "type": "integer",
+      "description": "Number of accounts 90 or more days past due in last 24 months"
+    },
+    "num_tl_op_past_12m": {
+      "type": "integer",
+      "description": "Number of accounts opened in past 12 months"
+    },
+    "pct_tl_nvr_dlq": {
+      "type": "number",
+      "description": "Percent of trades never delinquent"
+    },
+    "percent_bc_gt_75": {
+      "type": "number",
+      "description": "Percentage of all bankcard accounts > 75% of limit"
+    },
+    "pub_rec_bankruptcies": {
+      "type": "integer",
+      "description": "Number of public record bankruptcies"
+    },
+    "tax_liens": {
+      "type": "integer",
+      "description": "Number of tax liens"
+    },
+    "tot_hi_cred_lim": {
+      "type": "number",
+      "description": "Total high credit/credit limit"
+    },
+    "total_bal_ex_mort": {
+      "type": "number",
+      "description": "Total balance excluding mortgage"
+    },
+    "total_bc_limit": {
+      "type": "number",
+      "description": "Total bankcard high credit/credit limit"
+    },
+    "total_il_high_credit_limit": {
+      "type": "number",
+      "description": "Total installment high credit/credit limit"
+    },
+    "revol_bal_joint": {
+      "type": "number",
+      "description": "Sum of revolving credit balance of the co-borrowers"
+    },
+    "sec_app_fico_range_low": {
+      "type": "integer",
+      "description": "FICO range (low) for the secondary applicant"
+    },
+    "sec_app_fico_range_high": {
+      "type": "integer",
+      "description": "FICO range (high) for the secondary applicant"
+    },
+    "sec_app_earliest_cr_line": {
+      "type": "string",
+      "description": "Earliest credit line date for the secondary applicant"
+    },
+    "sec_app_inq_last_6mths": {
+      "type": "integer",
+      "description": "Number of inquiries in the last 6 months for the secondary applicant"
+    },
+    "sec_app_mort_acc": {
+      "type": "integer",
+      "description": "Number of mortgage accounts for the secondary applicant"
+    },
+    "sec_app_open_acc": {
+      "type": "integer",
+      "description": "Number of open trades for the secondary applicant"
+    },
+    "sec_app_revol_util": {
+      "type": "number",
+      "description": "Ratio of total current balance to high credit/credit limit for the secondary applicant"
+    },
+    "sec_app_open_il_24m": {
+      "type": "integer",
+      "description": "Number of installment accounts opened in past 24 months for the secondary applicant"
+    },
+    "sec_app_num_rev_accts": {
+      "type": "integer",
+      "description": "Number of revolving accounts for the secondary applicant"
+    },
+    "sec_app_chargeoff_within_12_mths": {
+      "type": "integer",
+      "description": "Number of charge-offs within 12 months for the secondary applicant"
+    },
+    "sec_app_collections_12_mths_ex_med": {
+      "type": "integer",
+      "description": "Number of collections in 12 months excluding medical collections for the secondary applicant"
+    },
+    "sec_app_mths_since_last_major_derog": {
+      "type": "integer",
+      "description": "Months since most recent 90-day or worse rating for the secondary applicant"
+    },
+    "sec_app_mort_acc": {
+      "type": "integer",
+      "description": "Number of mortgage accounts for the secondary applicant"
+    },
+    "sec_app_earliest_cr_line": {
+      "type": "string",
+      "description": "Earliest credit line date for the secondary applicant"
+    },
+    "hardship_flag": {
+      "type": "string",
+      "description": "Indicates if the borrower has been on a hardship plan"
+    },
+    "hardship_type": {
+      "type": "string",
+      "description": "Describes the hardship plan"
+    },
+    "hardship_reason": {
+      "type": "string",
+      "description": "Describes the reason for the hardship plan"
+    },
+    "hardship_status": {
+      "type": "string",
+      "description": "Current status of the hardship plan"
+    },
+    "deferral_term": {
+      "type": "integer",
+      "description": "Number of months of the deferral period"
+    },
+    "hardship_amount": {
+      "type": "number",
+      "description": "The payment amount the borrower has agreed to pay under the hardship plan"
+    },
+    "hardship_start_date": {
+      "type": "string",
+      "description": "The start date of the hardship plan"
+    },
+    "hardship_end_date": {
+      "type": "string",
+      "description": "The end date of the hardship plan"
+    },
+    "payment_plan_start_date": {
+      "type": "string",
+      "description": "The start date of the payment plan"
+    },
+    "hardship_length": {
+      "type": "integer",
+      "description": "Number of months in the hardship plan"
+    },
+    "hardship_dpd": {
+      "type": "integer",
+      "description": "Account days past due as of the hardship plan start date"
+    },
+    "hardship_loan_status": {
+      "type": "string",
+      "description": "Loan status as of the hardship plan start date"
+    },
+    "orig_projected_additional_accrued_interest": {
+      "type": "number",
+      "description": "Projected additional interest to be accrued as of the hardship plan start date"
+    },
+    "hardship_payoff_balance_amount": {
+      "type": "number",
+      "description": "The payoff balance amount as of the hardship plan start date"
+    },
+    "hardship_last_payment_amount": {
+      "type": "number",
+      "description": "The last payment amount as of the hardship plan start date"
+    },
+    "hardship_last_payment_date": {
+      "type": "string",
+      "description": "The last payment date as of the hardship plan start date"
+    },
+    "debt_settlement_flag": {
+      "type": "string",
+      "description": "Indicates if the loan is in debt settlement"
+    },
+    "debt_settlement_flag_date": {
+      "type": "string",
+      "description": "The date when the loan entered debt settlement"
+    },
+    "settlement_status": {
+      "type": "string",
+      "description": "The status of the debt settlement"
+    },
+    "settlement_amount": {
+      "type": "number",
+      "description": "The amount of the debt settlement"
+    },
+    "settlement_date": {
+      "type": "string",
+      "description": "The date of the debt settlement"
+    },
+    "settlement_percentage": {
+      "type": "number",
+      "description": "The percentage of the debt settled"
+    },
+    "settlement_term": {
+      "type": "integer",
+      "description": "The number of months in the debt settlement plan"
+    }
+  }
+} 
