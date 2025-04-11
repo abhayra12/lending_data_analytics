@@ -1,0 +1,13 @@
+version: '3'
+networks:
+  default:
+    name: lending-club-network
+    external: true
+services:
+  metabase:
+    image: metabase/metabase
+    container_name: lending-club-metabase
+    env_file:
+        - .env
+    ports:
+      - 3000:3000
