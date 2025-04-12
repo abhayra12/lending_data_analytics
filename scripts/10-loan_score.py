@@ -1,12 +1,12 @@
-#!/usr/bin/env python3
-# PySpark job based on 10-LendingClub_S7.ipynb - Loan Score Calculation
+
+#  Loan Score Calculation
 
 from pyspark.sql import SparkSession
 import getpass
 import os
 
 def main():
-    # Cell 1: Initialize Spark Session with BigQuery connector
+    # Initialize Spark Session with BigQuery connector
     username = getpass.getuser()
     spark = SparkSession. \
         builder. \
@@ -27,7 +27,7 @@ def main():
     GCS_BUCKET = "lending_ara"
 
     try:
-        # Cell 2-3: Configure scoring points for loan scoring system
+        # : Configure scoring points for loan scoring system
         # Points for different ratings
         spark.conf.set("spark.sql.unacceptable_rated_pts", 0)
         spark.conf.set("spark.sql.very_bad_rated_pts", 100)
@@ -82,7 +82,7 @@ def main():
         loans_defaulters_delinq_df.createOrReplaceTempView("loans_defaulters_delinq")
         loans_defaulters_detail_rec_enq_df.createOrReplaceTempView("loans_defaulters_detail_rec_enq")
         
-        # Cell 4-5: Load bad customer data
+        # : Load bad customer data
         print("\nLoading bad customer data")
         bad_customer_data_final_df = spark.read \
             .format("csv") \
@@ -92,7 +92,7 @@ def main():
         
         bad_customer_data_final_df.createOrReplaceTempView("bad_data_customer")
         
-        # Cell 6-7: Calculate Payment History (ph) points
+        # : Calculate Payment History (ph) points
         print("\nCalculating Payment History (ph) points")
         ph_df = spark.sql("""
             SELECT 
@@ -124,7 +124,7 @@ def main():
         print("Payment History Points sample:")
         ph_df.show(5)
         
-        # Cell 9-10: Loan Defaulters History(ldh)
+        # 0: Loan Defaulters History(ldh)
         print("\nCalculating Loan Defaulters History (ldh) points")
         ldh_ph_df = spark.sql("""
             SELECT p.*, 
@@ -162,7 +162,7 @@ def main():
         print("Loan Defaulters History Points sample:")
         ldh_ph_df.show(5)
         
-        # Cell 12-13: Financial Health
+        # 13: Financial Health
         print("\nCalculating Financial Health points")
         fh_ldh_ph_df = spark.sql("""
             SELECT ldef.*, 
@@ -227,7 +227,7 @@ def main():
         print("Financial Health Points sample:")
         fh_ldh_ph_df.show(5)
         
-        # Cell 14-15: Final loan score calculation with weights
+        # 15: Final loan score calculation with weights
         # 1. Payment History = 20%
         # 2. Loan Defaults = 45%
         # 3. Financial Health = 35%
@@ -243,7 +243,7 @@ def main():
         print("Loan Score components:")
         loan_score.show(5)
         
-        # Cell 16-17: Add total loan score column
+        # 17: Add total loan score column
         final_loan_score = loan_score.withColumn('loan_score', 
                                               loan_score.payment_history_pts + 
                                               loan_score.defaulters_history_pts + 
@@ -251,7 +251,7 @@ def main():
         
         final_loan_score.createOrReplaceTempView("loan_score_eval")
         
-        # Cell 18-19: Assign loan grades based on score
+        # 19: Assign loan grades based on score
         print("\nAssigning loan grades based on score")
         loan_score_final = spark.sql("""
             SELECT ls.*, 
@@ -272,7 +272,7 @@ def main():
         print("Final loan scores sample:")
         loan_score_final.show(5)
         
-        # Cell 22: Save results to GCS
+        #  Save results to GCS
         print("\nSaving loan score results to GCS")
         loan_score_final.write \
             .format("parquet") \
@@ -282,6 +282,15 @@ def main():
         
         print(f"Loan score data saved to gs://{GCS_BUCKET}/data/processed/loan_score")
 
+        #  Save loan score data to BigQuery
+        print("\nSaving loan score data to BigQuery")
+        loan_score_final.write \
+            .format("bigquery") \
+            .option("table", f"{GCP_PROJECT_ID}.{GCP_DATASET}.loan_score") \
+            .mode("overwrite") \
+            .save()
+        
+        print(f"Loan score data saved to BigQuery: {GCP_PROJECT_ID}.{GCP_DATASET}.loan_score")
     finally:
         # Stop Spark session
         print("\nStopping Spark session.")
