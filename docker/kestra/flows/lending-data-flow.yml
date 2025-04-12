@@ -59,11 +59,11 @@ tasks:
       # make sure cluster and region match your GCP settings
       - gcloud dataproc jobs submit pyspark gs://{{ kv('GCP_BUCKET_NAME') }}/code/08-create_unified_view.py --cluster=ara-cluster --region=asia-south1 --project=eastern-amp-449614-e1
 
-  - id: lending_club_s5_s6
+  - id: filter-bad-data
     type: io.kestra.plugin.gcp.cli.GCloudCLI
     commands:
       # make sure cluster and region match your GCP settings
-      - gcloud dataproc jobs submit pyspark gs://{{ kv('GCP_BUCKET_NAME') }}/code/09-lending_club_s5_s6.py --cluster=ara-cluster --region=asia-south1 --project=eastern-amp-449614-e1
+      - gcloud dataproc jobs submit pyspark gs://{{ kv('GCP_BUCKET_NAME') }}/code/09-filter-bad-data.py --cluster=ara-cluster --region=asia-south1 --project=eastern-amp-449614-e1
 
   - id: loan_score
     type: io.kestra.plugin.gcp.cli.GCloudCLI
