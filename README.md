@@ -55,11 +55,14 @@ The project implements a comprehensive batch data processing pipeline with:
 
 The data pipeline is structured as a sequence of PySpark jobs:
 
-```
-1. Data Loading → 2. Customer Data Cleaning → 3. Loan Data Cleaning → 
-4. Repayment Data Cleaning → 5. Defaulter Data Cleaning → 
-6. Detailed Defaulter Data Cleaning → 7. BigQuery Table Creation → 
-8. Unified View Creation → 9. Bad Data Filtering → 10. Loan Scoring
+```mermaid
+flowchart LR
+    Load[1. Data Loading] --> CleanCust[2. Customer\nData Cleaning]
+    CleanCust --> CleanLoan[3. Loan\nData Cleaning]
+    CleanLoan --> CleanRepay[4. Repayment\nData Cleaning]
+    CleanRepay --> CleanDef[5. Defaulter\nData Cleaning]
+    CleanDef --> CleanDefDetailed[6. Detailed Defaulter\nData Cleaning]
+    CleanDefDetailed --> BQTables[7. BigQuery\nTable Creation]
 ```
 
 Each step is a PySpark job submitted to Dataproc with appropriate dependencies using Kestra orchestrator.
@@ -68,9 +71,10 @@ Each step is a PySpark job submitted to Dataproc with appropriate dependencies u
 
 ```mermaid
 erDiagram
-    CUSTOMER ||--o{ LOAN : takes
-    LOAN ||--o{ REPAYMENT : has
-    LOAN ||--o{ DEFAULTER : may_have
+    CUSTOMER ||--o{ LOAN : takes}
+    LOAN ||--o{ REPAYMENT : has}
+    LOAN ||--o{ DEFAULTER : may_have}
+```
 
 - Tables are partitioned by date fields (e.g., loan issue date)
 - Clustered by frequently queried fields (e.g., member_id, loan_status)
@@ -121,30 +125,6 @@ The analytics dashboard in Metabase provides:
 
 
 
-```mermaid
-flowchart LR
-    subgraph "Dashboard Components"
-        direction TB
-        
-        LoanPerf[Loan Performance Dashboard]
-        RiskAnalysis[Risk Analysis Dashboard]
-        
-        subgraph "Loan Performance"
-            LoanStatus[Loan Status Distribution]
-            LoanGrade[Loan Grade Analysis]
-            TimeTrends[Temporal Trends]
-        end
-        
-        subgraph "Risk Analysis"
-            DefaultRate[Default Rate Analysis]
-            RiskScore[Risk Scoring]
-            Demographics[Demographic Insights]
-        end
-        
-        LoanPerf --> LoanStatus & LoanGrade & TimeTrends
-        RiskAnalysis --> DefaultRate & RiskScore & Demographics
-    end
-```
 
 ## Reproducibility
 
