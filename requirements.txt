@@ -1,0 +1,4 @@
+kagglehub
+google-cloud-storage
+pandas
+argparse
