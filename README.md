@@ -13,8 +13,22 @@ This project addresses the challenges in the lending industry by creating an end
 The platform helps lending institutions make better-informed decisions, reduce default risks, and optimize their lending strategies through data-driven insights.
 
 ## Architecture
+![Architecture](./public/architecture.png)
 
-![Architecture Diagram](https://i.imgur.com/placeholder.png)
+## Data Pipeline Flow
+
+```mermaid
+flowchart LR
+    Load[1. Data Loading] --> CleanCust[2. Customer\nData Cleaning]
+    CleanCust --> CleanLoan[3. Loan\nData Cleaning]
+    CleanLoan --> CleanRepay[4. Repayment\nData Cleaning]
+    CleanRepay --> CleanDef[5. Defaulter\nData Cleaning]
+    CleanDef --> CleanDefDetailed[6. Detailed Defaulter\nData Cleaning]
+    CleanDefDetailed --> BQTables[7. BigQuery\nTable Creation]
+    BQTables --> UnifiedView[8. Unified View\nCreation]
+    UnifiedView --> FilterBad[9. Bad Data\nFiltering]
+    FilterBad --> LoanScore[10. Loan\nScoring]
+```
 
 ## Cloud Infrastructure
 
@@ -22,9 +36,11 @@ This project is fully developed in the Google Cloud Platform (GCP) with Infrastr
 
 - **Google Cloud Storage (GCS)**: Data lake for raw and processed data
 - **Google Dataproc**: Managed Spark service for data processing
-- **BigQuery**: Data warehouse for analytics
-- **Looker Studio**: Data visualization and dashboards
+- **BigQuery**: Data warehouse
+- **Metabase**: Data visualization and dashboards
 - **Terraform**: Infrastructure as Code for reproducible environments
+- **Kestra**: Workflow Orchestraton
+- **Docker**: Containers
 
 ## Data Ingestion and Workflow Orchestration
 
@@ -32,9 +48,12 @@ The project implements a comprehensive batch data processing pipeline with:
 
 1. Data ingestion from source to GCS data lake
 2. Multiple transformation steps with dependencies
-3. Orchestrated workflow using Dataproc job submissions
+3. Orchestrated workflow using Kestra
 
-The data pipeline is structured as follows:
+![Workflow](./public/workflow.jpeg)
+
+
+The data pipeline is structured as a sequence of PySpark jobs:
 
 ```
 1. Data Loading → 2. Customer Data Cleaning → 3. Loan Data Cleaning → 
@@ -45,9 +64,13 @@ The data pipeline is structured as follows:
 
 Each step is a PySpark job submitted to Dataproc with appropriate dependencies using Kestra orchestrator.
 
-## Data Warehouse
+## Data Warehouse Schema
 
-The project uses BigQuery as the data warehouse with optimized table design:
+```mermaid
+erDiagram
+    CUSTOMER ||--o{ LOAN : takes
+    LOAN ||--o{ REPAYMENT : has
+    LOAN ||--o{ DEFAULTER : may_have
 
 - Tables are partitioned by date fields (e.g., loan issue date)
 - Clustered by frequently queried fields (e.g., member_id, loan_status)
@@ -64,11 +87,27 @@ The project uses Spark for comprehensive data transformations:
 - Complex aggregations and calculations
 - Creation of unified views for analytics
 
-PySpark scripts handle all transformations with a focus on scalability and performance.
+PySpark scripts handle all transformations with a focus on scalability and performance:
+
+```mermaid
+flowchart TB
+    subgraph "Data Transformation Process"
+        direction TB
+        
+        raw[Raw Data] --> clean[Data Cleaning]
+        clean --> norm[Data Normalization]
+        norm --> feature[Feature Engineering]
+        feature --> agg[Aggregations]
+        agg --> score[Loan Scoring]
+        
+        classDef process fill:#f9f,stroke:#333,stroke-width:2px
+        class clean,norm,feature,agg,score process
+    end
+```
 
 ## Dashboard
 
-The analytics dashboard in Looker Studio provides:
+The analytics dashboard in Metabase provides:
 
 1. Loan Performance Overview
    - Distribution of loans by status, grade, and purpose
@@ -77,6 +116,35 @@ The analytics dashboard in Looker Studio provides:
 2. Risk Analysis Dashboard
    - Default rate analysis by demographic segments
    - Loan score distribution and risk categorization
+
+![Dashboard](./public/dashboard.png)
+
+
+
+```mermaid
+flowchart LR
+    subgraph "Dashboard Components"
+        direction TB
+        
+        LoanPerf[Loan Performance Dashboard]
+        RiskAnalysis[Risk Analysis Dashboard]
+        
+        subgraph "Loan Performance"
+            LoanStatus[Loan Status Distribution]
+            LoanGrade[Loan Grade Analysis]
+            TimeTrends[Temporal Trends]
+        end
+        
+        subgraph "Risk Analysis"
+            DefaultRate[Default Rate Analysis]
+            RiskScore[Risk Scoring]
+            Demographics[Demographic Insights]
+        end
+        
+        LoanPerf --> LoanStatus & LoanGrade & TimeTrends
+        RiskAnalysis --> DefaultRate & RiskScore & Demographics
+    end
+```
 
 ## Reproducibility
 
@@ -111,7 +179,7 @@ The analytics dashboard in Looker Studio provides:
 
 4. **Upload initial data to GCS**
    
-   We have created a consolidated script for downloading Kaggle data and uploading scripts to GCS:
+   I have created a consolidated script for downloading Kaggle data and uploading scripts to GCS:
    
    ```bash
    # Install required dependencies
@@ -135,34 +203,37 @@ The analytics dashboard in Looker Studio provides:
    - Optionally uploads all Python scripts to the `code/` folder in the GCS bucket
    
    Note: You need to have Kaggle credentials configured before running this script.
-   
-   You can also use the legacy method with gsutil if needed:
-   ```bash
-   gsutil -m cp -r data gs://lending_ara/data/
-   ```
 
 5. **Run the data pipeline**
+
+   I have created a Kestra workflow for the data pipeline.
+   Start the Kestra Service by running the following command:
    ```bash
-   # Submit the first job to Dataproc
-   gcloud dataproc jobs submit pyspark scripts/01-lending_club_intro.py \
-     --cluster=ara-cluster \
-     --region=asia-south1 \
-     --project=your-project-id
-   
-   # Continue with subsequent jobs
-   gcloud dataproc jobs submit pyspark scripts/02-data_cleaning_customers.py \
-     --cluster=ara-cluster \
-     --region=asia-south1 \
-     --project=your-project-id
-   
-   # ... and so on for the remaining jobs
+   cd docker/kestra
+   docker compose up -d
    ```
+   Go to the Kestra UI by running the following command:
+   ```bash
+   open http://localhost:8080
+   ```
+   copy the flows from `docker/kestra/flows` to the Kestra UI.
+   execute the flows in the kestra ui.
+
+   ![Workflow](./public/kestra-flow.png)
+   
 
 6. **Access the dashboard**
-   - Go to Looker Studio
-   - Connect to the BigQuery dataset
-   - View the pre-configured dashboards or create custom visualizations
-
+   Start the Metabase Service by running the following command:
+   ```bash
+   cd docker/metabase
+   docker compose up -d
+   ```
+   Go to the Metabase UI by running the following command:
+   ```bash
+   open http://localhost:3000
+   ```
+   Create a new Metaabase account and login.
+   Select the `Lending Club` database and the `loan_data` table.
 ### Troubleshooting
 
 - If you encounter issues with Dataproc job submission, check the cluster logs
@@ -171,11 +242,8 @@ The analytics dashboard in Looker Studio provides:
 
 ## Future Enhancements
 
-- Implement Apache Airflow for more robust workflow orchestration
 - Add real-time data processing for immediate insights
-- Enhance the ML models for better risk prediction
-- Expand the dashboard with more interactive features
 
 ## Contributors
 
-- Your Name - Lead Developer 
+- Abhay https://github.com/abhayra12
