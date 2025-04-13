@@ -2,3 +2,6 @@ check_data.py
 raw_schema.json
 gcp-creds.json
 data/
+extras/
+TODO
+commands.txt
