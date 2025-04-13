@@ -97,11 +97,8 @@ PySpark scripts handle all transformations with a focus on scalability and perfo
 
 The analytics dashboard in Metabase provides:
 
-### 1. Loan Performance Overview
    - Distribution of loans by status, grade, and purpose
    - Temporal trends in loan issuance and repayment
-
-### 2. Risk Analysis Dashboard
    - Default rate analysis by demographic segments
    - Loan score distribution and risk categorization
 
