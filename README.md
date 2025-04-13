@@ -67,14 +67,7 @@ flowchart LR
 
 Each step is a PySpark job submitted to Dataproc with appropriate dependencies using Kestra orchestrator.
 
-## Data Warehouse Schema
-
-```mermaid
-erDiagram
-    CUSTOMER ||--o{ LOAN : takes}
-    LOAN ||--o{ REPAYMENT : has}
-    LOAN ||--o{ DEFAULTER : may_have}
-```
+## Data Warehouse (BigQuery)
 
 - Tables are partitioned by date fields (e.g., loan issue date)
 - Clustered by frequently queried fields (e.g., member_id, loan_status)
@@ -93,21 +86,7 @@ The project uses Spark for comprehensive data transformations:
 
 PySpark scripts handle all transformations with a focus on scalability and performance:
 
-```mermaid
-flowchart TB
-    subgraph "Data Transformation Process"
-        direction TB
-        
-        raw[Raw Data] --> clean[Data Cleaning]
-        clean --> norm[Data Normalization]
-        norm --> feature[Feature Engineering]
-        feature --> agg[Aggregations]
-        agg --> score[Loan Scoring]
-        
-        classDef process fill:#f9f,stroke:#333,stroke-width:2px
-        class clean,norm,feature,agg,score process
-    end
-```
+
 
 ## Dashboard
 
@@ -199,7 +178,7 @@ The analytics dashboard in Metabase provides:
    copy the flows from `docker/kestra/flows` to the Kestra UI.
    execute the flows in the kestra ui.
 
-   ![Workflow](./public/kestra-flow.png)
+   ![Workflow](./public/kestra-flow-.png)
    
 
 6. **Access the dashboard**
