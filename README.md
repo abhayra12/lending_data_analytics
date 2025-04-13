@@ -1,21 +1,26 @@
-# Lending Data Analytics Project
+# 📊 Lending Data Analytics Project
 
-## Problem Description
+[![GCP](https://img.shields.io/badge/Platform-GCP-blue?logo=google-cloud)](https://cloud.google.com/)
+[![PySpark](https://img.shields.io/badge/Built%20With-PySpark-orange?logo=apache-spark)](https://spark.apache.org/docs/latest/api/python/)
+[![BigQuery](https://img.shields.io/badge/Data%20Warehouse-BigQuery-green?logo=google-cloud)](https://cloud.google.com/bigquery)
+[![Kestra](https://img.shields.io/badge/Orchestration-Kestra-purple)](https://kestra.io/)
+
+## 🔍 Problem Description
 
 This project addresses the challenges in the lending industry by creating an end-to-end data pipeline for processing and analyzing lending club data. It enables financial institutions to:
 
-- Process and clean large volumes of lending data for analysis
-- Identify patterns in loan defaults and repayments
-- Create risk profiles for borrowers
-- Generate loan scores to assess the quality of loans
-- Provide actionable insights through analytics dashboards
+- ✅ Process and clean large volumes of lending data for analysis
+- ✅ Identify patterns in loan defaults and repayments
+- ✅ Create risk profiles for borrowers
+- ✅ Generate loan scores to assess the quality of loans
+- ✅ Provide actionable insights through analytics dashboards
 
 The platform helps lending institutions make better-informed decisions, reduce default risks, and optimize their lending strategies through data-driven insights.
 
-## Architecture
+## 🏗️ Architecture
 ![Architecture](./public/architecture.png)
 
-## Data Pipeline Flow
+## 🔄 Data Pipeline Flow
 
 ```mermaid
 flowchart LR
@@ -30,19 +35,21 @@ flowchart LR
     FilterBad --> LoanScore[10. Loan\nScoring]
 ```
 
-## Cloud Infrastructure
+## ☁️ Cloud Infrastructure
 
 This project is fully developed in the Google Cloud Platform (GCP) with Infrastructure as Code (IaC) principles using:
 
-- **Google Cloud Storage (GCS)**: Data lake for raw and processed data
-- **Google Dataproc**: Managed Spark service for data processing
-- **BigQuery**: Data warehouse
-- **Metabase**: Data visualization and dashboards
-- **Terraform**: Infrastructure as Code for reproducible environments
-- **Kestra**: Workflow Orchestraton
-- **Docker**: Containers
+| Component | Purpose |
+|-----------|---------|
+| **Google Cloud Storage (GCS)** | Data lake for raw and processed data |
+| **Google Dataproc** | Managed Spark service for data processing |
+| **BigQuery** | Data warehouse |
+| **Metabase** | Data visualization and dashboards |
+| **Terraform** | Infrastructure as Code for reproducible environments |
+| **Kestra** | Workflow Orchestration |
+| **Docker** | Containers |
 
-## Data Ingestion and Workflow Orchestration
+## 📥 Data Ingestion and Workflow Orchestration
 
 The project implements a comprehensive batch data processing pipeline with:
 
@@ -67,7 +74,7 @@ flowchart LR
 
 Each step is a PySpark job submitted to Dataproc with appropriate dependencies using Kestra orchestrator.
 
-## Data Warehouse (BigQuery)
+## 🗄️ Data Warehouse (BigQuery)
 
 - Tables are partitioned by date fields (e.g., loan issue date)
 - Clustered by frequently queried fields (e.g., member_id, loan_status)
@@ -75,7 +82,7 @@ Each step is a PySpark job submitted to Dataproc with appropriate dependencies u
 
 This structure optimizes query performance for the analytics use cases, reducing query costs and improving response time.
 
-## Data Transformations
+## 🔧 Data Transformations
 
 The project uses Spark for comprehensive data transformations:
 
@@ -84,28 +91,23 @@ The project uses Spark for comprehensive data transformations:
 - Complex aggregations and calculations
 - Creation of unified views for analytics
 
-PySpark scripts handle all transformations with a focus on scalability and performance:
+PySpark scripts handle all transformations with a focus on scalability and performance.
 
-
-
-## Dashboard
+## 📊 Dashboard
 
 The analytics dashboard in Metabase provides:
 
-1. Loan Performance Overview
+### 1. Loan Performance Overview
    - Distribution of loans by status, grade, and purpose
    - Temporal trends in loan issuance and repayment
 
-2. Risk Analysis Dashboard
+### 2. Risk Analysis Dashboard
    - Default rate analysis by demographic segments
    - Loan score distribution and risk categorization
 
 ![Dashboard](./public/dashboard.png)
 
-
-
-
-## Reproducibility
+## 🔄 Reproducibility
 
 ### Prerequisites
 
@@ -161,7 +163,7 @@ The analytics dashboard in Metabase provides:
    - Uploads the CSV file to the GCS bucket
    - Optionally uploads all Python scripts to the `code/` folder in the GCS bucket
    
-   Note: You need to have Kaggle credentials configured before running this script.
+   > **Note**: You need to have Kaggle credentials configured before running this script.
 
 5. **Run the data pipeline**
 
@@ -182,27 +184,28 @@ The analytics dashboard in Metabase provides:
    
 
 6. **Access the dashboard**
-   Start the Metabase Service by running the following command:
    ```bash
    cd docker/metabase
    docker compose up -d
-   ```
-   Go to the Metabase UI by running the following command:
-   ```bash
+   
+   # Open in browser
    open http://localhost:3000
    ```
-   Create a new Metaabase account and login.
+   Create a new Metabase account and login.
    Select the `Lending Club` database and the `loan_data` table.
+
 ### Troubleshooting
 
-- If you encounter issues with Dataproc job submission, check the cluster logs
-- For BigQuery access issues, verify service account permissions
-- For data related issues, check the intermediate outputs in GCS
+| Issue | Resolution |
+|-------|------------|
+| Dataproc job submission fails | Check the cluster logs |
+| BigQuery access issues | Verify service account permissions |
+| Data related issues | Check the intermediate outputs in GCS |
 
-## Future Enhancements
+## 🚀 Future Enhancements
 
 - Add real-time data processing for immediate insights
 
-## Contributors
+## 👨‍💻 Contributors
 
-- Abhay https://github.com/abhayra12
+- [Abhay](https://github.com/abhayra12)
