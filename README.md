@@ -20,20 +20,6 @@ The platform helps lending institutions make better-informed decisions, reduce d
 ## 🏗️ Architecture
 ![Architecture](./public/architecture.png)
 
-## 🔄 Data Pipeline Flow
-
-```mermaid
-flowchart LR
-    Load[1. Data Loading] --> CleanCust[2. Customer\nData Cleaning]
-    CleanCust --> CleanLoan[3. Loan\nData Cleaning]
-    CleanLoan --> CleanRepay[4. Repayment\nData Cleaning]
-    CleanRepay --> CleanDef[5. Defaulter\nData Cleaning]
-    CleanDef --> CleanDefDetailed[6. Detailed Defaulter\nData Cleaning]
-    CleanDefDetailed --> BQTables[7. BigQuery\nTable Creation]
-    BQTables --> UnifiedView[8. Unified View\nCreation]
-    UnifiedView --> FilterBad[9. Bad Data\nFiltering]
-    FilterBad --> LoanScore[10. Loan\nScoring]
-```
 
 ## ☁️ Cloud Infrastructure
 
