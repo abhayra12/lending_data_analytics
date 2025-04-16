@@ -18,7 +18,7 @@ This project addresses the challenges in the lending industry by creating an end
 The platform helps lending institutions make better-informed decisions, reduce default risks, and optimize their lending strategies through data-driven insights.
 
 ## 🏗️ Architecture
-![Architecture](./public/architecture.png)
+![Architecture](./public/architecture.gif)
 
 
 ## ☁️ Cloud Infrastructure
